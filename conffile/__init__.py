@@ -63,11 +63,12 @@ class ConfFile(dict):
             return 
 
         with open(self.CONF_FILE) as fob:
-            for line in fob.readlines():
+            for line in fob:
+                line = line.rstrip()
                 if not line or line.startswith("#"):
                     continue
 
-                key, val = line.rstrip().split("=")
+                key, val = line.split("=")
                 self[key.strip().lower()] = val.strip()
 
     def write(self):
