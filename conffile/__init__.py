@@ -1,16 +1,17 @@
 # Copyright (c) 2010 Alon Swartz <alon@turnkeylinux.org>
+#               2019 TurnKey GNU/Linux <admin@turnkeylinux.org>
 #
-# This file is part of turnkey-pylib.
-#
-# turnkey-pylib is open source software; you can redistribute it and/or
+# turnkey-conffile is open source software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License as
 # published by the Free Software Foundation; either version 3 of the
 # License, or (at your option) any later version.
 
 import os
 
+
 class ConfFileError(Exception):
     pass
+
 
 class ConfFile(dict):
     """Configuration file class (targeted at simple shell type configs)
@@ -50,7 +51,8 @@ class ConfFile(dict):
         self.REQUIRED.extend(required)
         for attr in self.REQUIRED:
             if attr not in self:
-                error = "%s not specified in %s" % (attr.upper(), self.CONF_FILE)
+                error = "%s not specified in %s" % (attr.upper(),
+                                                    self.CONF_FILE)
                 raise ConfFileError(error)
 
     def set_environ(self):
@@ -60,7 +62,7 @@ class ConfFile(dict):
 
     def read(self):
         if not self.CONF_FILE or not os.path.exists(self.CONF_FILE):
-            return 
+            return
 
         with open(self.CONF_FILE) as fob:
             for line in fob:
@@ -93,4 +95,3 @@ class ConfFile(dict):
 
     def __setattr__(self, key, val):
         self[key] = val
-
