@@ -21,9 +21,9 @@ class ConfFile:
 
         conf = ConfFile('path/to/conf', ['req_arg1', 'req_arg2'])
 
-        print(conf.req_arg1) # display ARG1 value from /path/to/conf
-        conf.arg2 = value    # set ARG2 value
-        conf.write()         # write new/update config to /path/to/conf
+        print(conf[req_arg1]) # display ARG1 value from /path/to/conf
+        conf[arg2] = value    # set ARG2 value
+        conf.write()          # write new/update config to /path/to/conf
 
     Format:
 
