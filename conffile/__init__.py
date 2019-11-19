@@ -94,7 +94,7 @@ class ConfFile:
     def __len__(self):
         return self._dict.__len__()
 
-    def __delete__(self, key);
+    def __delete__(self, key):
         try:
             self._dict.__delete__(key)
         except KeyError as e:
