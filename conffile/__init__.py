@@ -34,8 +34,11 @@ class ConfFile:
     """
     def __init__(self, conf_file=None, required=[], error=True):
         self._dict = {}
-        self.file = conf_file
-        self.path = Path(conf_file)
+        try:
+            self.file = str(conf_file)
+            self.path = Path(conf_file)
+        except TypeError as e:
+            raise ConfFileError('Must be a str (or pathlib) object')
         self.required = required
         self.read(error=error)
         self.validate_required(required, error=error)
@@ -58,7 +61,7 @@ class ConfFile:
         conf_file = self.conf_path
         if not conf_file.is_file():
             if error:
-                raise ConfFileError(f"Conf file '{conf_file}' not found.")
+                raise ConfFileError("Conf file '{}' not found.".format(conf_file))
             return
 
         with conf_file.open() as fob:
