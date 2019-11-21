@@ -7,6 +7,8 @@
 
 import os
 from pathlib import Path
+from typing import Optional, List
+
 
 class ConfFileError(Exception):
     pass
@@ -32,7 +34,8 @@ class ConfFile:
         AGE=29
 
     """
-    def __init__(self, conf_file=None, required=[], error=True):
+    def __init__(self, conf_file: Optional[str]=None,
+                 required: List=[], error: bool=True) -> None:
         self._dict = {}
         try:
             self.file = str(conf_file)
