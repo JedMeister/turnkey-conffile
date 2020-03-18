@@ -39,7 +39,10 @@ class ConfFile:
         self._dict = {}
         try:
             self.file = str(conf_file)
-            self.path = Path(conf_file)
+            if conf_file:
+                self.path = Path(conf_file)
+            else:
+                self.path = None
         except TypeError as e:
             raise ConfFileError('Must be a str (or pathlib) object')
         self.required = required
@@ -54,20 +57,22 @@ class ConfFile:
         for attr in required:
             if attr not in self._dict:
                 if error:
-                    raise ConfFileError(
-                        "'{attr}' not specified in {self.conf_file}.")
+                    raise ConfFileError(("'{}' not specified in {}."
+                                         ).format(attr, self.file))
                 else:
                     return False
         return True
 
     def read(self, error=True):
-        conf_file = self.conf_path
-        if not conf_file.is_file():
+        if not self.path:
+            return
+        if not self.path.is_file():
             if error:
-                raise ConfFileError("Conf file '{}' not found.".format(conf_file))
+                raise ConfFileError(("Conf file '{}' not found."
+                                     ).format(self.file))
             return
 
-        with conf_file.open() as fob:
+        with self.path.open() as fob:
             for line in fob:
                 line = line.rstrip()
                 if not line or line.startswith("#"):
